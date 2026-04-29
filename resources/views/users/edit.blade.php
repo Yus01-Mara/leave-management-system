@@ -30,6 +30,8 @@
                         <select name="role" class="form-select rounded-3">
                             <option value="employee" {{ $user->role == 'employee' ? 'selected' : '' }}>Employee</option>
                             <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
+                            <option value="ketua_pegawai" {{ $user->role == 'ketua_pegawai' ? 'selected' : '' }}>Ketua Pegawai</option>
+                            <option value="penolong_pengarah" {{ $user->role == 'penolong_pengarah' ? 'selected' : '' }}>Penolong Pengarah</option>
                         </select>
                     </div>
 

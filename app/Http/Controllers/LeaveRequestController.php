@@ -79,7 +79,9 @@ class LeaveRequestController extends Controller
             'total_days' => $totalDays,
             'reason' => $request->reason,
             'attachment' => $attachmentPath,
-            'status' => 'pending',
+            'status' => 'pending_ketua_pegawai',
+            'ketua_pegawai_status' => 'pending',
+            'penolong_pengarah_status' => 'waiting',
         ]);
 
         return redirect()->route('leave-requests.index')->with('success', 'Leave request submitted successfully.');

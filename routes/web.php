@@ -8,6 +8,8 @@ use App\Http\Controllers\LeaveRequestController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Admin\ApprovalController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\KetuaPegawaiApprovalController;
+use App\Http\Controllers\PenolongPengarahApprovalController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -31,6 +33,20 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/approvals/{id}/reject', [ApprovalController::class, 'reject'])->name('approvals.reject');
 
     Route::get('/reports/leave', [ReportController::class, 'leaveReport'])->name('reports.leave');
+});
+
+// Ketua Pegawai
+Route::middleware(['auth'])->group(function () {
+    Route::get('/ketua-approvals', [KetuaPegawaiApprovalController::class, 'index'])->name('ketua.approvals');
+    Route::post('/ketua-approve/{id}', [KetuaPegawaiApprovalController::class, 'approve'])->name('ketua.approve');
+    Route::post('/ketua-reject/{id}', [KetuaPegawaiApprovalController::class, 'reject'])->name('ketua.reject');
+});
+
+// Penolong Pengarah
+Route::middleware(['auth'])->group(function () {
+    Route::get('/penolong-approvals', [PenolongPengarahApprovalController::class, 'index'])->name('penolong.approvals');
+    Route::post('/penolong-approve/{id}', [PenolongPengarahApprovalController::class, 'approve'])->name('penolong.approve');
+    Route::post('/penolong-reject/{id}', [PenolongPengarahApprovalController::class, 'reject'])->name('penolong.reject');
 });
 
 require __DIR__.'/auth.php';

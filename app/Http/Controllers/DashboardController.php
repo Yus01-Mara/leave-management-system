@@ -12,7 +12,7 @@ class DashboardController extends Controller
     {
         $totalEmployees = User::where('role', 'employee')->count();
         $totalRequests = LeaveRequest::count();
-        $pendingRequests = LeaveRequest::where('status', 'pending')->count();
+        $pendingRequests = LeaveRequest::where('status', 'pending_ketua_pegawai')->count();
         $approvedRequests = LeaveRequest::where('status', 'approved')->count();
         $rejectedRequests = LeaveRequest::where('status', 'rejected')->count();
         $totalDepartments = Department::count();

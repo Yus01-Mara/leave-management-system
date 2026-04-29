@@ -246,6 +246,26 @@
                 <span class="menu-text">Apply Leave</span>
             </a>
 
+            @if(auth()->check() && auth()->user()->role === 'penolong_pengarah')
+                <div class="menu-label">Final Approval</div>
+
+                <a href="{{ route('penolong.approvals') }}"
+                class="menu-link {{ request()->routeIs('penolong.*') ? 'active' : '' }}">
+                    <i class="bi bi-patch-check menu-icon"></i>
+                    <span class="menu-text">Penolong Approvals</span>
+                </a>
+            @endif
+
+            @if(auth()->check() && auth()->user()->role === 'ketua_pegawai')
+                <div class="menu-label">Approval</div>
+
+                <a href="{{ route('ketua.approvals') }}"
+                class="menu-link {{ request()->routeIs('ketua.*') ? 'active' : '' }}">
+                    <i class="bi bi-person-check menu-icon"></i>
+                    <span class="menu-text">Ketua Approvals</span>
+                </a>
+            @endif
+
             @if(auth()->check() && auth()->user()->role === 'admin')
                 <div class="menu-label">Administration</div>
 
@@ -267,11 +287,7 @@
                     <span class="menu-text">Leave Types</span>
                 </a>
 
-                <a href="{{ route('approvals.index') }}"
-                   class="menu-link {{ request()->routeIs('approvals.*') ? 'active' : '' }}">
-                    <i class="bi bi-check2-square menu-icon"></i>
-                    <span class="menu-text">Approvals</span>
-                </a>
+                
 
                 <a href="{{ route('reports.leave') }}"
                     class="menu-link {{ request()->routeIs('reports.leave') ? 'active' : '' }}">

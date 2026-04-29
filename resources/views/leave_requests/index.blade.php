@@ -70,8 +70,20 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <span class="badge bg-{{ $request->status == 'approved' ? 'success' : ($request->status == 'rejected' ? 'danger' : 'warning') }}">
-                                        {{ ucfirst($request->status) }}
+                                    @php
+                                        $statusMap = [
+                                            'pending_ketua_pegawai' => ['label' => 'Pending Ketua Pegawai', 'color' => 'warning'],
+                                            'approved_by_ketua_pegawai' => ['label' => 'Approved by Ketua (Waiting Final)', 'color' => 'info'],
+                                            'approved' => ['label' => 'Approved', 'color' => 'success'],
+                                            'rejected_by_ketua_pegawai' => ['label' => 'Rejected by Ketua Pegawai', 'color' => 'danger'],
+                                            'rejected_by_penolong_pengarah' => ['label' => 'Rejected by Penolong Pengarah', 'color' => 'danger'],
+                                        ];
+
+                                        $status = $statusMap[$request->status] ?? ['label' => ucfirst($request->status), 'color' => 'secondary'];
+                                    @endphp
+
+                                    <span class="badge bg-{{ $status['color'] }}">
+                                        {{ $status['label'] }}
                                     </span>
                                 </td>
                             </tr>

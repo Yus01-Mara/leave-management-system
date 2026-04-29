@@ -43,7 +43,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:6',
-            'role' => 'required|string',
+            'role' => 'required|in:admin,employee,ketua_pegawai,penolong_pengarah',
             'department_id' => 'nullable|exists:departments,id',
             'phone' => 'nullable|string|max:20',
             'staff_id' => 'nullable|string|max:50|unique:users,staff_id',

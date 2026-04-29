@@ -48,8 +48,24 @@
                                 <td class="fw-semibold">{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
                                 <td>
-                                    <span class="badge bg-{{ $user->role === 'admin' ? 'dark' : 'primary' }}">
-                                        {{ ucfirst($user->role) }}
+                                    @php
+                                        $roleColors = [
+                                            'admin' => 'dark',
+                                            'employee' => 'primary',
+                                            'ketua_pegawai' => 'warning',
+                                            'penolong_pengarah' => 'success',
+                                        ];
+
+                                        $roleLabels = [
+                                            'admin' => 'Admin',
+                                            'employee' => 'Employee',
+                                            'ketua_pegawai' => 'Ketua Pegawai',
+                                            'penolong_pengarah' => 'Penolong Pengarah',
+                                        ];
+                                    @endphp
+
+                                    <span class="badge bg-{{ $roleColors[$user->role] ?? 'secondary' }}">
+                                        {{ $roleLabels[$user->role] ?? ucfirst($user->role) }}
                                     </span>
                                 </td>
                                 <td>{{ $user->department->name ?? '-' }}</td>

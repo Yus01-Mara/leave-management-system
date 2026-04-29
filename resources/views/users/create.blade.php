@@ -29,6 +29,8 @@
                         <select name="role" class="form-select rounded-3">
                             <option value="employee">Employee</option>
                             <option value="admin">Admin</option>
+                            <option value="ketua_pegawai">Ketua Pegawai</option>
+                            <option value="penolong_pengarah">Penolong Pengarah</option>
                         </select>
                     </div>
 
