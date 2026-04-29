@@ -3,7 +3,8 @@
 ## Setup Instructions
 
 1. Clone project
-git clone https://github.com/YOUR_USERNAME/leave-management-system.git
+
+- git clone https://github.com/YOUR_USERNAME/leave-management-system.git
 
 2. Install dependencies
 composer install
@@ -21,4 +22,4 @@ php artisan key:generate
 php artisan migrate
 
 7. Run server
-php artisan serve
+php artisan servea
