@@ -10,6 +10,10 @@ class KetuaPegawaiApprovalController extends Controller
 {
     public function index()
     {
+        if (auth()->user()->role !== 'ketua_pegawai') {
+            abort(403);
+        }
+
         $leaveRequests = LeaveRequest::with(['user', 'leaveType'])
             ->where('status', 'pending_ketua_pegawai')
             ->latest()
@@ -20,6 +24,10 @@ class KetuaPegawaiApprovalController extends Controller
 
     public function approve($id)
     {
+        if (auth()->user()->role !== 'ketua_pegawai') {
+            abort(403);
+        }
+
         $leave = LeaveRequest::findOrFail($id);
 
         if ($leave->status !== 'pending_ketua_pegawai') {
@@ -38,7 +46,19 @@ class KetuaPegawaiApprovalController extends Controller
 
     public function reject(Request $request, $id)
     {
+        if (auth()->user()->role !== 'ketua_pegawai') {
+            abort(403);
+        }
+
+        $request->validate([
+            'remark' => 'required|string|max:255',
+        ]);
+
         $leave = LeaveRequest::findOrFail($id);
+
+        if ($leave->status !== 'pending_ketua_pegawai') {
+            return back()->with('error', 'Already processed.');
+        }
 
         $leave->update([
             'ketua_pegawai_id' => Auth::id(),

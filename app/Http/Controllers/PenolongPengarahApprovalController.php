@@ -11,6 +11,10 @@ class PenolongPengarahApprovalController extends Controller
 {
     public function index()
     {
+        if (auth()->user()->role !== 'penolong_pengarah') {
+            abort(403);
+        }
+
         $leaveRequests = LeaveRequest::with(['user', 'leaveType'])
             ->where('status', 'approved_by_ketua_pegawai')
             ->latest()
@@ -21,9 +25,12 @@ class PenolongPengarahApprovalController extends Controller
 
     public function approve($id)
     {
+        if (auth()->user()->role !== 'penolong_pengarah') {
+            abort(403);
+        }
+
         $leave = LeaveRequest::findOrFail($id);
 
-        // ❗ prevent double approval
         if ($leave->status !== 'approved_by_ketua_pegawai') {
             return back()->with('error', 'Already processed.');
         }
@@ -37,7 +44,6 @@ class PenolongPengarahApprovalController extends Controller
             return back()->with('error', 'Not enough leave balance.');
         }
 
-        // deduct only once
         $balance->used_days += $leave->total_days;
         $balance->remaining_days = $balance->total_days - $balance->used_days;
         $balance->save();
@@ -54,7 +60,19 @@ class PenolongPengarahApprovalController extends Controller
 
     public function reject(Request $request, $id)
     {
+        if (auth()->user()->role !== 'penolong_pengarah') {
+            abort(403);
+        }
+
+        $request->validate([
+            'remark' => 'required|string|max:255',
+        ]);
+
         $leave = LeaveRequest::findOrFail($id);
+
+        if ($leave->status !== 'approved_by_ketua_pegawai') {
+            return back()->with('error', 'Already processed.');
+        }
 
         $leave->update([
             'penolong_pengarah_id' => Auth::id(),
