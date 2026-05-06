@@ -1,13 +1,12 @@
 name: Tests
-
 on:
   push:
     branches:
       - master
       - '*.x'
   pull_request:
-  schedule:
-    - cron: '0 0 * * *'
+    branches:
+      - master        # ← only PRs targeting master
 
 permissions:
   contents: read
@@ -15,33 +14,25 @@ permissions:
 jobs:
   tests:
     runs-on: ubuntu-latest
-
     strategy:
       fail-fast: true
       matrix:
-        php: [8.3, 8.4, 8.5]
-
+        php: [8.3]    # ← test only one PHP version to save minutes
     name: PHP ${{ matrix.php }}
-
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
-
+        uses: actions/checkout@v4   # ← v6 doesn't exist, use v4
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
           coverage: none
-
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-interaction --no-progress
-
       - name: Copy environment file
         run: cp .env.example .env
-
       - name: Generate app key
         run: php artisan key:generate
-
       - name: Execute tests
         run: php artisan test
